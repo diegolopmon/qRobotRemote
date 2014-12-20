@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>JoyStick.qml</file>
+    </qresource>
+</RCC>
