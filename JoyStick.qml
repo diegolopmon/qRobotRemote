@@ -5,7 +5,7 @@ Item {
 
     id:joystick;
 
-    signal dirChanged(string direction);
+    signal dirChanged(string direction, int power);
     signal pressed();
     signal released();
 
@@ -23,7 +23,7 @@ Item {
     Rectangle {
         id: stick;
 
-        color: "white";
+        color: "black";
 
         width: totalArea.width/2;
         height: width;
@@ -115,7 +115,7 @@ Item {
 
             console.debug("Power: ", power, " Direction: ", dir);
 
-
+            parent.dirChanged(dir, power);
         }
     }
 }

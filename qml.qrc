@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>JoyStick.qml</file>
+        <file>ImgButton.qml</file>
+        <file>btScanButton.svg</file>
     </qresource>
 </RCC>
