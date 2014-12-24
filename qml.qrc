@@ -4,5 +4,6 @@
         <file>JoyStick.qml</file>
         <file>ImgButton.qml</file>
         <file>btScanButton.svg</file>
+        <file>Scanner.qml</file>
     </qresource>
 </RCC>
