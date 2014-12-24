@@ -5,5 +5,8 @@
         <file>ImgButton.qml</file>
         <file>btScanButton.svg</file>
         <file>Scanner.qml</file>
+        <file>btDevButton.svg</file>
+        <file>searchButton.svg</file>
+        <file>doneButton.svg</file>
     </qresource>
 </RCC>
