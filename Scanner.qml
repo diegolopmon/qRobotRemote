@@ -47,6 +47,24 @@ Item {
             anchors.topMargin: 10
             width: height
         }
+
+        ImgButton {
+            id: reloadButton
+
+            imgSrc: "reloadButton.svg"
+            anchors.right: searchButton.left
+            anchors.rightMargin: 10
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 10
+            anchors.top: parent.top
+            width: height
+
+            onClicked: {
+                console.debug("Reload BT scannig.")
+                btModel.discoveryMode = BluetoothDiscoveryModel.DeviceDiscovery
+                btModel.running = true
+            }
+        }
     }
 
     ListView {

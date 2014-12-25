@@ -8,5 +8,6 @@
         <file>btDevButton.svg</file>
         <file>searchButton.svg</file>
         <file>doneButton.svg</file>
+        <file>reloadButton.svg</file>
     </qresource>
 </RCC>
