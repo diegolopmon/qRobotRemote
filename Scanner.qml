@@ -1,9 +1,28 @@
-import QtQuick 2.0
+import QtQuick 2.3
 import QtBluetooth 5.3
+import QtQuick.Dialogs 1.2
 
 Item {
     id: scanner;
     property BluetoothService currentService
+    property string remoteDevice: ""
+
+    signal selected(string remoteAddress)
+
+    MessageDialog {
+        id: connectDialog
+        title: qsTr("Connect with...")
+        icon: StandardIcon.Question
+        standardButtons: StandardButton.Ok | StandardButton.Cancel
+        onAccepted: {
+            console.debug("Device selected: ",scanner.remoteDevice)
+            scanner.selected(scanner.remoteDevice)
+        }
+        onRejected: {
+            console.debug("Device no selected")
+        }
+
+    }
 
     BluetoothDiscoveryModel {
         id: btModel
@@ -95,10 +114,18 @@ Item {
             }
 
             Text {
-                text: name
+                text: model.name
                 font.pointSize: 24
                 anchors.left: btDevButton.right
                 anchors.verticalCenter: parent.verticalCenter
+            }
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    connectDialog.text = model.name
+                    scanner.remoteDevice = model.remoteAddress
+                    connectDialog.open()
+                }
             }
         }
     }
