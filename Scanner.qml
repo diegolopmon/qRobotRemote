@@ -4,10 +4,9 @@ import QtQuick.Dialogs 1.2
 
 Item {
     id: scanner;
-    property BluetoothService currentService
-    property string remoteDevice: ""
+    property BluetoothService service
 
-    signal selected(string remoteAddress)
+    signal selected(BluetoothService remoteService)
 
     MessageDialog {
         id: connectDialog
@@ -15,8 +14,8 @@ Item {
         icon: StandardIcon.Question
         standardButtons: StandardButton.Ok | StandardButton.Cancel
         onAccepted: {
-            console.debug("Device selected: ",scanner.remoteDevice)
-            scanner.selected(scanner.remoteDevice)
+            console.debug("Device selected: UUID:",scanner.service.serviceUuid + "Name: " +scanner.service.serviceName)
+            scanner.selected(scanner.service)
         }
         onRejected: {
             console.debug("Device no selected")
@@ -27,9 +26,9 @@ Item {
     BluetoothDiscoveryModel {
         id: btModel
         running: true
-        discoveryMode: BluetoothDiscoveryModel.DeviceDiscovery
+        discoveryMode: BluetoothDiscoveryModel.FullServiceDiscovery
         onDiscoveryModeChanged: console.log("Discovery mode: " + discoveryMode)
-        onServiceDiscovered: console.log("Found new service " + service.deviceAddress + " " + service.deviceName + " " + service.serviceName);
+        onServiceDiscovered: console.log("Found new service " + service.deviceAddress + " " + service.deviceName + " " + service.serviceName)
         onDeviceDiscovered: console.log("New device: " + device)
         onErrorChanged: {
                 switch (btModel.error) {
@@ -45,6 +44,7 @@ Item {
                     console.log("Error: Unknown Error"); break;
                 }
         }
+        uuidFilter: "00001101-0000-1000-8000-00805f9b34fb"
     }
 
     Rectangle {
@@ -80,7 +80,7 @@ Item {
 
             onClicked: {
                 console.debug("Reload BT scannig.")
-                btModel.discoveryMode = BluetoothDiscoveryModel.DeviceDiscovery
+                btModel.discoveryMode = BluetoothDiscoveryModel.FullServiceDiscovery
                 btModel.running = true
             }
         }
@@ -114,7 +114,7 @@ Item {
             }
 
             Text {
-                text: model.name
+                text: name
                 font.pointSize: 24
                 anchors.left: btDevButton.right
                 anchors.verticalCenter: parent.verticalCenter
@@ -123,7 +123,7 @@ Item {
                 anchors.fill: parent
                 onClicked: {
                     connectDialog.text = model.name
-                    scanner.remoteDevice = model.remoteAddress
+                    scanner.service = model.service
                     connectDialog.open()
                 }
             }
