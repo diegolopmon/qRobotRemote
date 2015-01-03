@@ -21,8 +21,8 @@ ApplicationWindow {
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
 
-            width: 600
-            height: 600
+            width: 400
+            height: 400
             onDirChanged: {
                 socket.sendStringData(direction + " " + power)
             }
@@ -31,7 +31,10 @@ ApplicationWindow {
         Scanner {
             id: scanner
             onSelected: {
+                socket.connected = false
                 socket.setService(remoteService)
+                socket.connected = true
+
                 stackView.pop()
             }
         }
@@ -50,21 +53,37 @@ ApplicationWindow {
                         console.log(data)
             }
         }
-
-        ImgButton {
-            id: btScanButton
-
-            imgSrc: "btScanButton.svg"
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 35
-            width: 100
+        Rectangle {
+            color: "transparent"
             height: 100
+            width: parent.width
+            anchors.bottom: parent.bottom
 
-            onClicked: {
-                console.debug("BT scannig menu selected.")
-                stackView.push(scanner)
+            Text {
+                text: socket.service.deviceName
+                visible: socket.connected
+                font.pointSize: 30
+                anchors.leftMargin: 10
+                anchors.left: parent.left
+                anchors.right: btScanButton.left
             }
+
+            ImgButton {
+                id: btScanButton
+
+                imgSrc: "btScanButton.svg"
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                width: 80
+                height: 80
+
+                onClicked: {
+                    console.debug("BT scannig menu selected.")
+                    stackView.push(scanner)
+                }
+            }
+
+
         }
     }
 
