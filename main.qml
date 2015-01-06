@@ -3,13 +3,8 @@ import QtQuick.Controls 1.3
 import QtQuick.Window 2.2
 import QtBluetooth 5.3
 
-ApplicationWindow {
-    title: qsTr("qRemote Control")
-    width: 800
-    height: 800
+Item {
     visible: true
-    color: "white"
-
 
     Item {
         id: mainView
@@ -25,6 +20,9 @@ ApplicationWindow {
             height: 400
             onDirChanged: {
                 socket.sendStringData(direction + " " + power)
+            }
+            onReleased: {
+                socket.sendStringData("S 0")
             }
         }
 
@@ -60,11 +58,12 @@ ApplicationWindow {
             anchors.bottom: parent.bottom
 
             Text {
-                text: socket.service.deviceName
+                text: socket.connected ? socket.service.deviceName : ""
                 visible: socket.connected
-                font.pointSize: 30
+                font.pointSize: 35
                 anchors.leftMargin: 10
                 anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
                 anchors.right: btScanButton.left
             }
 

@@ -1,12 +1,21 @@
-#include <QApplication>
-#include <QQmlApplicationEngine>
+#include <QtGui/QGuiApplication>
+#include <QtQuick/QQuickView>
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlContext>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    QGuiApplication application(argc, argv);
 
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-
-    return app.exec();
+    const QString mainQmlApp = QLatin1String("qrc:/main.qml");
+    QQuickView view;
+    view.setSource(QUrl(mainQmlApp));
+    view.setResizeMode(QQuickView::SizeRootObjectToView);
+    // Qt.quit() called in embedded .qml by default only emits
+    // quit() signal, so do this (optionally use Qt.exit()).
+    QObject::connect(view.engine(), SIGNAL(quit()), qApp, SLOT(quit()));
+    view.setGeometry(QRect(100, 100, 360, 480));
+    view.show();
+    return application.exec();
 }
