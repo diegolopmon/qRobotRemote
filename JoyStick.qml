@@ -92,26 +92,30 @@ Item {
             var xDist = mouseX - (totalArea.x + totalArea.radius)
             var yDist = mouseY - (totalArea.y + totalArea.radius)
             var dist = Math.sqrt(Math.pow(xDist,2) + Math.pow(yDist,2))
-
-            //if distance is less than radius inner circle is inside larger circle
-            if(totalArea.radius < dist) {
-                return
-            }
-
-            //move the stick
-            var oldX = stick.x
-            var oldY = stick.y
-            stick.x = mouseX - stick.radius
-            stick.y = mouseY - stick.radius
+            var power = 0
 
             //Calculate angle
             var angle = angle_degrees(xDist,yDist)
 
+            //if distance is less than radius inner circle is inside larger circle
+            if(totalArea.radius < dist) {                
+                //move the stick
+                stick.x = totalArea.radius * Math.cos((angle - 90) * Math.PI / 180) + stick.radius
+                stick.y = totalArea.radius * Math.sin((angle - 90) * Math.PI / 180) + stick.radius
+                power = 100
+            }
+            else
+            {
+                //move the stick
+                stick.x = mouseX - stick.radius
+                stick.y = mouseY - stick.radius
+
+                //Calculate power (Range 0-100)
+                power = dist * 100 / (totalArea.width/2)
+            }
+
             //L R U D for describe direction
             var dir = direction(angle)
-
-            //Calculate power (Range 0-100)
-            var power = dist * 100 / (totalArea.width/2)
 
             console.debug("Power: ", power, " Direction: ", dir)
 
