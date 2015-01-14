@@ -16,13 +16,22 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
 
+            property string oldDir
+            property int oldPower
+
             width: 400
             height: 400
             onDirChanged: {
-                socket.sendStringData(direction + " " + power)
+
+                if ( Math.abs(power - oldPower) > 4 || oldDir != direction )
+                {
+                    socket.sendStringData(direction + power)
+                    oldPower = power
+                    oldDir = direction
+                }
             }
             onReleased: {
-                socket.sendStringData("S 0")
+                socket.sendStringData("S0")
             }
         }
 
@@ -45,10 +54,8 @@ Item {
             }
 
             onStringDataChanged: {
-                        console.log("Received data: " )
-                        var data = socket.stringData;
-                        data = data.substring(0, data.indexOf('\n'))
-                        console.log(data)
+                        var data = socket.stringData
+                        console.log("Received data: " + data)
             }
         }
         Rectangle {
