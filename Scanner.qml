@@ -9,6 +9,14 @@ Item {
     signal selected(BluetoothService remoteService)
 
     MessageDialog {
+        id: errorDialog
+        title: qsTr("Error")
+        icon: StandardIcon.Critical
+        standardButtons: StandardButton.Ok
+
+    }
+
+    MessageDialog {
         id: connectDialog
         title: qsTr("Connect with...")
         icon: StandardIcon.Question
@@ -33,15 +41,27 @@ Item {
         onErrorChanged: {
                 switch (btModel.error) {
                 case BluetoothDiscoveryModel.PoweredOffError:
-                    console.log("Error: Bluetooth device not turned on"); break;
+                    console.log("Error: Bluetooth device not turned on")
+                    errorDialog.text = "Bluetooth device not turned on"
+                    errorDialog.open()
+                    break
                 case BluetoothDiscoveryModel.InputOutputError:
-                    console.log("Error: Bluetooth I/O Error"); break;
+                    console.log("Error: Bluetooth I/O Error")
+                    errorDialog.text = "Bluetooth I/O Error"
+                    errorDialog.open()
+                    break
                 case BluetoothDiscoveryModel.InvalidBluetoothAdapterError:
-                    console.log("Error: Invalid Bluetooth Adapter Error"); break;
+                    console.log("Error: Invalid Bluetooth Adapter Error")
+                    errorDialog.text = "Invalid Bluetooth Adapter Error"
+                    errorDialog.open()
+                    break
                 case BluetoothDiscoveryModel.NoError:
                     break;
                 default:
-                    console.log("Error: Unknown Error"); break;
+                    console.log("Error: Unknown Error")
+                    errorDialog.text = "Unknown Error"
+                    errorDialog.open()
+                    break
                 }
         }
         uuidFilter: "00001101-0000-1000-8000-00805f9b34fb"

@@ -13,4 +13,9 @@ QML_IMPORT_PATH =
 # Default rules for deployment.
 include(deployment.pri)
 
-DISTFILES +=
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/res/values/libs.xml \
+    android/build.gradle
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
