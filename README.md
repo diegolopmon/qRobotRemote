@@ -5,9 +5,11 @@ Qt Quick application for controlling a remote robot via Bluetooth via on screen 
 
 The communication over RFCOMM with a paired device:
 
-> [Direction] + [Power]
+```
+[Direction] + [Power]
+```
 
-## Direction values
+### Direction values
 
  * **U** Up
  * **D** Down
@@ -15,13 +17,39 @@ The communication over RFCOMM with a paired device:
  * **R** Right
  * **S** Stop
 
-## Power
+### Power
 
 Range [1-100]
 
 0 to stop
 
+## Build
 
+### Linux
 
+**Requires:**
+
+* git
+* Qt 5.4
+* build-essential
+
+```
+git clone https://github.com/diegolopmon/qRobotRemote.git
+cd qRobotRemote
+qmake qRobotRemote.pro
+make
+```
+
+## Run
+
+### Linux
+
+**Requires:**
+
+ * BlueZ
+
+```
+./qRobotRemote
+```
 
 *Copyright (C) 2015 Diego López*
