@@ -1,5 +1,5 @@
 # qRobotRemote
-Qt Quick application for controlling a remote robot via Bluetooth via on screen joystick.
+Qt Quick application for controlling a remote robot via Bluetooth with on screen joystick.
 
 ## Protocol
 
